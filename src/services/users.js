@@ -1,3 +1,5 @@
+var db = require('../../knexfile')
+
 const userData = {
   name: this.name,
   balance: this.balance,
@@ -15,22 +17,27 @@ const updateBalance = async (req) => {
   const indate = new Date(req.inDate).getTime()
   const outdate = new Date(req.outDate).getTime()
   const diffdate = indate - outdate
-  const timeOff = (diffdate / (1000));
-
-  const newBalance = req.balance + (timeOff * req.sumMultiplier)
-
+  const timeOff = (diffdate / (1000) * req.sumMultiplier);
+  const newBalance = req.balance + timeOff
   return newBalance
 }
 
 const buyPowerup = async (req) => {
-  const oldBalance = req.balance
-  const price = req.price
+  const oldBalance = req.user.balance
+  const price = req.powerup.price
   newBalance = oldBalance - price
   if (newBalance < 0) return { error: 'Insuficient balance' }
-  return newBalance
+  const newMultiplier = await addMultiplier(req.user, req.powerup)
+  console.log(newMultiplier)
+  return {
+    newBalance: newBalance,
+    newMultiplier: newMultiplier
+  }
 }
 
-
+const addMultiplier = async (user, pwup) => {
+  return user.sumMultiplier + pwup.multiplier
+}
 
 module.exports = {
   getUserData,

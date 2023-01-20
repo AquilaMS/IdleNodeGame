@@ -6,6 +6,8 @@ const MAIN_ROUTE = '/user'
 //
 let fake_user1 = {
   name: 'testName',
+  email: 'test@test.com',
+  password: '123',
   balance: 0,
   outDate: new Date('2021-03-25'),
   inDate: new Date('2021-03-26'),
@@ -45,23 +47,16 @@ test('update balance', () => {
 test('buy power up', () => {
   return request(app)
     .post(`${MAIN_ROUTE}/buypowerup`)
-    .send({ price: fake_power_up.price, balance: fake_user1.balance })
+    .send({ powerup: fake_power_up, user: fake_user1 })
     .then(res => {
       expect(res.status).toBe(200)
       const newBalance = fake_user1.balance - fake_power_up.price
       if (!res.body.error) {
         expect(res.body).toBe(newBalance)
         expect(newBalance).toBeGreaterThanOrEqual(0)
+        expect(res.body).toHaveProperty('newMultiplier')
+        expect(res.body).toHaveProperty('newBalance')
       }
     })
 })
 
-
-test('check add power up', () => {
-  return request(app)
-    .post(`${MAIN_ROUTE}/buypowerup`)
-    .send({ price: fake_power_up.price, balance: fake_user1.balance })
-    .then(res => {
-
-    })
-})
