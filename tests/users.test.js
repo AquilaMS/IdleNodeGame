@@ -12,6 +12,8 @@ let fake_user1 = {
   sumMultiplier: 2
 }
 
+fake_power_up = { objname: 'Alchemy Lab', price: 10, multiplier: 2 }
+
 test('get all user data', () => {
   return request(app)
     .post(`${MAIN_ROUTE}`)
@@ -40,3 +42,26 @@ test('update balance', () => {
     })
 })
 
+test('buy power up', () => {
+  return request(app)
+    .post(`${MAIN_ROUTE}/buypowerup`)
+    .send({ price: fake_power_up.price, balance: fake_user1.balance })
+    .then(res => {
+      expect(res.status).toBe(200)
+      const newBalance = fake_user1.balance - fake_power_up.price
+      if (!res.body.error) {
+        expect(res.body).toBe(newBalance)
+        expect(newBalance).toBeGreaterThanOrEqual(0)
+      }
+    })
+})
+
+
+test('check add power up', () => {
+  return request(app)
+    .post(`${MAIN_ROUTE}/buypowerup`)
+    .send({ price: fake_power_up.price, balance: fake_user1.balance })
+    .then(res => {
+
+    })
+})

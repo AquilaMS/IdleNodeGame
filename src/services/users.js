@@ -22,7 +22,18 @@ const updateBalance = async (req) => {
   return newBalance
 }
 
+const buyPowerup = async (req) => {
+  const oldBalance = req.balance
+  const price = req.price
+  newBalance = oldBalance - price
+  if (newBalance < 0) return { error: 'Insuficient balance' }
+  return newBalance
+}
+
+
+
 module.exports = {
   getUserData,
-  updateBalance
+  updateBalance,
+  buyPowerup
 }

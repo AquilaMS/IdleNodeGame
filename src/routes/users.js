@@ -14,5 +14,10 @@ router.post('/update', updateBalance = async (req, res, next) => {
   })
 })
 
+router.post('/buypowerup', buyPowerup = async (req, res, next) => {
+  userServices.buyPowerup(req.body).then(result => {
+    res.status(200).json(result)
+  })
+})
 
 module.exports = router
