@@ -1,0 +1,26 @@
+const app = require('express')
+const router = app.Router()
+const powerup = require('../services/powerups')
+
+
+router.post('/', getOne = (req, res, next) => {
+  powerup.getOne(req.body).then(result => {
+    res.status(200).json(result)
+  })
+})
+
+router.get('/', getAll = (req, res, next) => {
+  powerup.getAll().then(result => {
+    res.status(200).json(result)
+
+  })
+})
+
+router.get('/update', updateBalance = (req, res, next) => {
+  powerup.updateBalance().then(result => {
+    res.status(200).json(result)
+  })
+})
+
+
+module.exports = router
