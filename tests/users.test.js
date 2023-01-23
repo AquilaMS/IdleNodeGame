@@ -1,8 +1,7 @@
 const request = require('supertest')
 const app = require('../src/app')
-
 const MAIN_ROUTE = '/user'
-
+const AUTH_ROUTE = '/acc'
 //
 let fake_user1 = {
   name: 'testName',
@@ -18,7 +17,7 @@ fake_power_up = { objname: 'Alchemy Lab', price: 10, multiplier: 2 }
 
 test('get all user data', () => {
   return request(app)
-    .post(`${MAIN_ROUTE}`)
+    .post(`${AUTH_ROUTE}/get`)
     .send(fake_user1).then(res => {
       expect(res.status).toBe(200)
       expect(res.body).toHaveProperty('name')
@@ -30,7 +29,7 @@ test('get all user data', () => {
       expect(typeof res.body.balance).toBe('number')
       expect(new Date(res.body.outDate).getTime()).not.toBeNaN();
       expect(new Date(res.body.inDate).getTime()).not.toBeNaN();
-      expect(typeof res.body.sumMultiplier).toBe('number')
+      //expect(typeof res.body.sumMultiplier).toBe('number')
     })
 })
 

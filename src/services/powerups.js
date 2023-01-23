@@ -10,6 +10,7 @@ const getAll = async (req, res) => {
   return powerupList;
 }
 
+
 module.exports = {
   getAll,
   getOne,

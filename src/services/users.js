@@ -8,9 +8,6 @@ const userData = {
   sumMultiplier: this.sumMultiplier
 }
 
-const getUserData = async (req) => {
-  return req
-}
 
 const updateBalance = async (req) => {
 
@@ -40,7 +37,6 @@ const addMultiplier = async (user, pwup) => {
 }
 
 module.exports = {
-  getUserData,
   updateBalance,
-  buyPowerup
+  buyPowerup,
 }
