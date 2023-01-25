@@ -1,4 +1,5 @@
 var db = require('../../knexfile')
+const powerupServices = require('../services/powerups')
 
 const userData = {
   name: this.name,
@@ -8,28 +9,17 @@ const userData = {
   sumMultiplier: this.sumMultiplier
 }
 
-
-const updateBalance = async (req) => {
-
-  const indate = new Date(req.inDate).getTime()
-  const outdate = new Date(req.outDate).getTime()
-  const diffdate = indate - outdate
-  const timeOff = (diffdate / (1000) * req.sumMultiplier);
-  const newBalance = req.balance + timeOff
-  return newBalance
+const getUserData = async (user) => {
+  const userData = await db('users').where({ id: user.id }).first()
+  return userData
 }
 
-const buyPowerup = async (req) => {
-  const oldBalance = req.user.balance
-  const price = req.powerup.price
-  newBalance = oldBalance - price
-  if (newBalance < 0) return { error: 'Insuficient balance' }
-  const newMultiplier = await addMultiplier(req.user, req.powerup)
-  console.log(newMultiplier)
-  return {
-    newBalance: newBalance,
-    newMultiplier: newMultiplier
-  }
+const updateBalance = async (user) => {
+  //const userData = await getUserData(user)
+  const sumMultiplier = await powerupServices.updateMultiplier(user)
+  const newBalance = await db('users').where({ id: user.id }).update({ balance: })
+
+  return newBalance
 }
 
 const addMultiplier = async (user, pwup) => {
@@ -38,5 +28,5 @@ const addMultiplier = async (user, pwup) => {
 
 module.exports = {
   updateBalance,
-  buyPowerup,
+  getUserData
 }
