@@ -1,15 +1,25 @@
 const request = require('supertest')
 const app = require('../src/app')
 var db = require('../knexfile')
-const MAIN_ROUTE = '/acc'
 const fakeUsers = require('./fakeusers')
 const authServices = require('../src/services/auth')
+const jwt = require('jwt-simple')
 
+const MAIN_ROUTE = '/acc'
+const SIGNUP_ROUTE = '/signup'
+const SECRET = 'super hyper secret'
+
+beforeAll(async () => {
+  const res = await authServices.createUser(fakeUsers.fake_user3)
+  user = { ...res }
+  user.token = jwt.encode(user.insertedUser[0], SECRET)
+})
 
 test('email must be unique', () => {
   return request(app)
     .post(`${MAIN_ROUTE}/get`)
-    .send({ id: 44 })
+    .set('authorization', `bearer ${user.token}`)
+    //.send({ id: 619 })
     .then(res => {
       expect(res.status).toBe(200)
     })
@@ -17,8 +27,9 @@ test('email must be unique', () => {
 
 test('check fields', () => {
   return request(app)
-    .post(`${MAIN_ROUTE}/signup`)
+    .post(`${SIGNUP_ROUTE}`)
     .send({})
+    .set('authorization', `bearer ${user.token}`)
     .then(res => {
       expect(res.body).toHaveProperty('error')
     })
@@ -26,8 +37,8 @@ test('check fields', () => {
 
 test('insert a user', () => {
   return request(app)
-    .post(`${MAIN_ROUTE}/signup`)
-    .send(fakeUsers.fake_user3)
+    .post(`${SIGNUP_ROUTE}`)
+    .send({ name: 'User test2', email: `${Date.now()}@mail.com`, password: '123' })
     .then(res => {
       expect(res.status).toBe(201)
     })
@@ -36,7 +47,8 @@ test('insert a user', () => {
 test('get bad password', () => {
   return authServices.createUser(fakeUsers.fake_user3)
     .then(() => request(app).post('/acc/signin')
-      .send({ email: fakeUsers.fake_user3.email, password: '1234' }))
+      .send({ email: fakeUsers.fake_user3.email, password: '1234' })
+      .set('authorization', `bearer ${user.token}`))
     .then(res => {
       expect(res.status).toBe(300)
       expect(res.body).toHaveProperty('error')
@@ -46,10 +58,14 @@ test('get bad password', () => {
 test('get good password', () => {
   return authServices.createUser(fakeUsers.fake_user3)
     .then(() => request(app).post('/acc/signin')
-      .send({ email: fakeUsers.fake_user3.email, password: '123' }))
+      .send({ email: fakeUsers.fake_user3.email, password: '123' })
+      .set('authorization', `bearer ${user.token}`))
     .then(res => {
       expect(res.status).toBe(201)
       expect(res.body).toHaveProperty('token')
     })
 })
 
+test('cannot access protected routes', () => {
+
+})

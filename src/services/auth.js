@@ -1,7 +1,8 @@
 var db = require('../../knexfile')
 const bcrypt = require('bcrypt')
-const SECRET = 'super hyper secret'
 const jwt = require('jwt-simple')
+
+const SECRET = 'super hyper secret'
 
 const getPasswordHash = (pwd) => {
   const salt = bcrypt.genSaltSync(10)
@@ -13,11 +14,14 @@ const createUser = async (req) => {
   if (!req.password) return { error: 'Insert a password' }
 
   req.password = getPasswordHash(req.password)
-  const newUser = await db.insert(req).into('users').then(result => {
-  }).catch(err => {
-    return { error: 'Invalid' }
-  })
-  return { newUser }
+
+  const userDB = await getUserData({ email: req.email })
+  if (userDB) return { error: 'Email already registered' }
+
+  const newUser = { ...req }
+  const insertedUser = await db('users').insert(newUser, ['id', 'name', 'email'])
+
+  return { insertedUser }
 }
 
 const getUserData = async (filter = {}) => {
@@ -29,8 +33,6 @@ const getUserData = async (filter = {}) => {
 const signIn = async (req) => {
   return getUserData({ email: req.email })
     .then(user => {
-      console.log(user)
-      console.log(req)
       if (bcrypt.compareSync(req.password, user.password)) {
         const payload = {
           id: user.id,

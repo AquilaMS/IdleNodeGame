@@ -1,14 +1,29 @@
 const passport = require('passport')
-const localStrategy = require('passport-local').Strategy
-const db = require('../../knexfile')
+const passportJwt = require('passport-jwt')
+const authServices = require('../services/auth')
 
-const customFields = {
-  email: 'test@test.com',
-  password: '123'
-}
+const SECRET = 'super hyper secret'
 
-const verifyCallback = (email, password, done) => {
-  return db('users').where({ email, password })
+const { Strategy, ExtractJwt } = passportJwt
+
+module.exports = () => {
+  const params = {
+    secretOrKey: SECRET,
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  }
+  const strategy = new Strategy(params, (payload, done) => {
+    authServices.getUserData({ id: payload.id })
+      .then(user => {
+        if (user) done(null, { ...payload })
+        else done(null, false)
+      }).catch(error => {
+        done(error, false)
+      })
+  })
+
+  passport.use(strategy)
+
+  return {
+    authenticate: () => passport.authenticate('jwt', { session: false })
+  }
 }
-const strategy = new localStrategy(customFields, verifyCallback)
-passport.use(strategy)

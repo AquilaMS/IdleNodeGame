@@ -3,7 +3,8 @@ const express = require('express')
 const powerupsRouter = require('./routes/powerups')
 const usersRouter = require('./routes/users')
 const authRouter = require('./routes/auth');
-const passport = require('passport');
+const passportConfig = require('./config/passport')()
+const signupRouter = require('./routes/signup')
 
 app.use(express.json())
 
@@ -12,8 +13,9 @@ app.get('/', (req, res) => {
   res.status(200).send();
 });
 
-app.use('/powerups', powerupsRouter)
-app.use('/user', usersRouter)
+app.use('/powerups', passportConfig.authenticate(), powerupsRouter)
+app.use('/user', passportConfig.authenticate(), usersRouter)
+app.use('/acc', passportConfig.authenticate(), authRouter)
+app.use('/signup', signupRouter)
 //app.use('/acc', passport.authenticate('local'), authRouter)
-app.use('/acc', authRouter)
 module.exports = app;
