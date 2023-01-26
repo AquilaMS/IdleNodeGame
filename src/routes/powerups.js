@@ -14,15 +14,14 @@ router.get('/', getAll = (req, res, next) => {
   })
 })
 
-router.post('/buy', buyPowerup = (req, res, next) => {
-  powerup.buyPowerup(req.user, req.body.powerupID).then(result => {
+router.post('/buy/:powerupID', buyPowerup = (req, res, next) => {
+  powerup.buyPowerup(req.user, req.params.powerupID).then(result => {
     res.status(200).json(result)
   })
 })
 
 router.get('/update', updateMultiplier = (req, res, next) => {
   powerup.updateMultiplier(req.user).then(result => {
-    console.log(req.user)
     res.status(200).json(result)
   })
 })

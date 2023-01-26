@@ -1,4 +1,5 @@
-var db = require('../../knexfile')
+var db = require('../config/database')
+const app = require('../app')
 const powerupServices = require('../services/powerups')
 
 const userData = {
@@ -17,8 +18,7 @@ const getUserData = async (user) => {
 const updateBalance = async (user) => {
   //const userData = await getUserData(user)
   const sumMultiplier = await powerupServices.updateMultiplier(user)
-  const newBalance = await db('users').where({ id: user.id }).update({ balance: })
-
+  const newBalance = await db('users').where({ id: user.id }).update({ balance: user.balance })
   return newBalance
 }
 

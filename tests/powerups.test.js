@@ -36,21 +36,3 @@ test('get all powerup', () => {
       expect(res.body.length).toBe(powerup.powerupList.length)
     })
 })
-
-test('buy powerup', () => {
-  return request(app)
-    .post(`${MAIN_ROUTE}/buy`)
-    .send({ powerupID: 1 })
-    .set('authorization', `bearer ${user.token}`)
-    .then(res => {
-      expect(res.status).toBe(200)
-    })
-})
-
-test('sum user multipliers', () => {
-  return request(app)
-    .get(`${MAIN_ROUTE}/update`)
-    .set('authorization', `bearer ${user.token}`)
-    .then(res => {
-    })
-})

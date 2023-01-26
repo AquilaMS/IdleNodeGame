@@ -1,4 +1,3 @@
-const test = require('knex')
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -10,8 +9,8 @@ exports.up = function (knex) {
     t.string('email').notNullable().unique();
     t.string('password').notNullable();
     t.integer('balance');
-    t.dateTime('outDate');
-    t.dateTime('inDate');
+    t.timestamp('outDate');
+    t.timestamp('inDate').defaultTo(knex.fn.now());
     t.decimal('sumMultiplier', 20, 2);
   }
   )

@@ -1,6 +1,7 @@
-var db = require('../../knexfile')
+var db = require('../config/database')
 const bcrypt = require('bcrypt')
 const jwt = require('jwt-simple')
+const app = require('../app')
 
 const SECRET = 'super hyper secret'
 
@@ -14,10 +15,8 @@ const createUser = async (req) => {
   if (!req.password) return { error: 'Insert a password' }
 
   req.password = getPasswordHash(req.password)
-
   const userDB = await getUserData({ email: req.email })
   if (userDB) return { error: 'Email already registered' }
-
   const newUser = { ...req }
   const insertedUser = await db('users').insert(newUser, ['id', 'name', 'email'])
 
@@ -26,7 +25,6 @@ const createUser = async (req) => {
 
 const getUserData = async (filter = {}) => {
   const res = await db.select().table('users').where(filter).first()
-  //console.log(res)
   return res
 }
 

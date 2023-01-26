@@ -1,7 +1,7 @@
 {
   "name": "node_game_back",
   "version": "1.0.0",
-  "description": "a idle game wrote in node",
+  "description": "a idle game wrote in js",
   "main": "index.js",
   "scripts": {
     "test": "jest",

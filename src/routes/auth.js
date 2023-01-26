@@ -11,11 +11,4 @@ router
     })
   })
 
-  .post('/signin', signIn = async (req, res, next) => {
-    authServices.signIn(req.body).then(result => {
-      if (!result.error) return res.status(201).json({ token: result })
-      return res.status(300).json({ error: 'Invalid' })
-    })
-  })
-
 module.exports = router

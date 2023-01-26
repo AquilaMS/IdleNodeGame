@@ -1,4 +1,5 @@
-var db = require('../../knexfile')
+var db = require('../config/database')
+const app = require('../app');
 const userServices = require('../services/users')
 
 const powerupList = [
@@ -26,14 +27,15 @@ const buyPowerup = async (user, pwup) => {
     price: powerupList[pwup].price,
     multiplier: powerupList[pwup].multiplier
   })
-
-  return insertedTransaction
+  await db('users').where({ id: user.id }).update({ balance: newBalance })
+  return updateMultiplier(user)
 }
 
-const updateMultiplier = async (user, pwup) => {
-  const userData = await userServices.getUserData(user)
-  const sumMultiplier = db('transactions').where({ id_user: user.id }).sum('multiplier').first().returning(['sum'])
-  return sumMultiplier
+const updateMultiplier = async (user) => {
+  const sumMultiplier = await db('transactions').where({ id_user: user.id }).sum('multiplier').first().returning(['sum'])
+  const newUserMultiplier = await db('users').where({ id: user.id }).update({ sumMultiplier: sumMultiplier.sum }).returning(['sumMultiplier'])
+
+  return newUserMultiplier[0].sumMultiplier
 }
 module.exports = {
   getAll,

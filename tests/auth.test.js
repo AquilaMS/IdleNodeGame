@@ -8,6 +8,7 @@ const jwt = require('jwt-simple')
 const MAIN_ROUTE = '/acc'
 const SIGNUP_ROUTE = '/signup'
 const SECRET = 'super hyper secret'
+const SIGNIN_ROUTE = '/signin'
 
 beforeAll(async () => {
   const res = await authServices.createUser(fakeUsers.fake_user3)
@@ -46,7 +47,7 @@ test('insert a user', () => {
 
 test('get bad password', () => {
   return authServices.createUser(fakeUsers.fake_user3)
-    .then(() => request(app).post('/acc/signin')
+    .then(() => request(app).post(SIGNIN_ROUTE)
       .send({ email: fakeUsers.fake_user3.email, password: '1234' })
       .set('authorization', `bearer ${user.token}`))
     .then(res => {
@@ -57,7 +58,7 @@ test('get bad password', () => {
 
 test('get good password', () => {
   return authServices.createUser(fakeUsers.fake_user3)
-    .then(() => request(app).post('/acc/signin')
+    .then(() => request(app).post(SIGNIN_ROUTE)
       .send({ email: fakeUsers.fake_user3.email, password: '123' })
       .set('authorization', `bearer ${user.token}`))
     .then(res => {
