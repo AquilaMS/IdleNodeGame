@@ -3,13 +3,11 @@ const app = require('../src/app')
 const fakeUsers = require('./fakeusers')
 const authServices = require('../src/services/auth')
 const jwt = require('jwt-simple')
-var db = require('../knexfile')
 
-const MAIN_ROUTE = '/user'
 const SECRET = 'super hyper secret'
-const SIGNUP_ROUTE = '/signup'
-const AUTH_ROUTE = '/acc'
+
 const POWERUPS_ROUTE = '/powerups'
+const USERS_ROUTE = '/user'
 
 beforeAll(async () => {
   const res = await authServices.createUser(fakeUsers.fake_user3)
@@ -20,22 +18,21 @@ beforeAll(async () => {
   user2 = { ...res2 }
 })
 
-let fake_user1 = {
-  name: 'testName',
-  email: 'test@test.com',
-  password: '123',
-  balance: 0,
-  outDate: new Date('2021-03-25'),
-  inDate: new Date('2021-03-26'),
-  sumMultiplier: 2
-}
-
 fake_power_up = { objname: 'Alchemy Lab', price: 10, multiplier: 2 }
 test('buy powerup', () => {
   return request(app)
     .post(`${POWERUPS_ROUTE}/buy/1`)
     .set('authorization', `bearer ${user1.token}`)
     .then(res => {
-      expect(res.body).toBe('3.00')
+      expect(res.body).toBe(3.00)
+    })
+})
+
+test('update balance', () => {
+  return request(app)
+    .post(`${USERS_ROUTE}/update`)
+    .set('authorization', `bearer ${user1.token}`)
+    .then(res => {
+      expect(res.body.balance).toBe(1748)
     })
 })

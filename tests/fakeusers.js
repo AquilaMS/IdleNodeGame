@@ -3,7 +3,7 @@ exports.fake_user3 = {
   name: 'testName',
   email: `${Date.now()}@email.com`,
   password: '123',
-  balance: 30,
+  balance: 40,
   outDate: new Date('2021-03-25'),
   inDate: new Date('2021-03-26'),
   sumMultiplier: 0

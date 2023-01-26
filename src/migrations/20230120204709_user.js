@@ -8,10 +8,10 @@ exports.up = function (knex) {
     t.string('name').notNullable();
     t.string('email').notNullable().unique();
     t.string('password').notNullable();
-    t.integer('balance');
+    t.float('balance').defaultTo(0);
     t.timestamp('outDate');
-    t.timestamp('inDate').defaultTo(knex.fn.now());
-    t.decimal('sumMultiplier', 20, 2);
+    t.timestamp('inDate').defaultTo(knex.raw('NOW()'));
+    t.float('sumMultiplier').defaultTo(0);
   }
   )
 };

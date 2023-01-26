@@ -1,6 +1,6 @@
 const request = require('supertest')
 const app = require('../src/app')
-const powerup = require('../src/services/powerups')
+const powerup = require('../src/services/powerupslist')
 const fakeUsers = require('./fakeusers')
 const authServices = require('../src/services/auth')
 const jwt = require('jwt-simple')
@@ -33,6 +33,6 @@ test('get all powerup', () => {
     .set('authorization', `bearer ${user.token}`)
     .then(res => {
       expect(res.status).toBe(200)
-      expect(res.body.length).toBe(powerup.powerupList.length)
+      expect(res.body.length).toBe(powerup.item.length)
     })
 })
