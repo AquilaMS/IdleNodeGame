@@ -6,11 +6,8 @@ Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT
 
 ## Documentação da API
 
-
-
-
   ```
-  POST /acc/get
+    POST /acc/get
   ``` 
 
 
@@ -21,7 +18,7 @@ Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT
 
 
 ```
-POST /buy/${powerupID}
+  POST /buy/${powerupID}
 ```
 
 | Parâmetro   | Tipo       | Descrição                                   |
