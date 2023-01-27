@@ -9,7 +9,7 @@ Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT
 
 
 
-  ``POST /acc/get`` 
+  ```POST /acc/get``` 
 
 
 | Parâmetro   | Tipo       | Descrição                           |
@@ -18,7 +18,7 @@ Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT
 
 
 
-``POST /buy/${powerupID}``
+```POST /buy/${powerupID}```
 
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
@@ -32,21 +32,21 @@ Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT
 | :---------- | :--------- | :------------------------------------------ |
 |       | `int` |Retorna os dados de todos os **powerups** registrados|
 
-```http
+```
  POST /signin/{email, password}
 ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `{email, password}`      | `string` |Retorna token JWT do usuário|
 
-```http
+```
  POST /signup/{name. email, password}
 ```
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `{name, email, password}`      | `string` |Retorna *id*, *name* e *email*|
 
-```http
+```
  POST /users/update
 ```
 | Parâmetro   | Tipo       | Descrição                                   |
