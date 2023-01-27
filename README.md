@@ -9,9 +9,9 @@ Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT
 
 
 
-```http
+````http
   POST /acc/get 
-  
+````
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
