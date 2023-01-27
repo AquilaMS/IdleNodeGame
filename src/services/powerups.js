@@ -2,9 +2,8 @@ var db = require('../config/database')
 const userServices = require('../services/users')
 const powerupList = require('./powerupslist')
 
-
 const getOne = async (req, res) => {
-  return powerupList.item[req.index];
+  return powerupList.item[req];
 }
 const getAll = async (req, res) => {
   return powerupList.item;
@@ -27,7 +26,7 @@ const buyPowerup = async (user, pwup) => {
     multiplier: powerupList.item[pwup].multiplier
   })
   await db('users').where({ id: user.id }).update({ balance: newBalance })
-  return updateMultiplier(user)
+  return { newBalance, oldBalance, newMultiplier: await updateMultiplier(user) }
 }
 
 const updateMultiplier = async (user) => {

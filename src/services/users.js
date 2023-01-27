@@ -1,6 +1,4 @@
 var db = require('../config/database')
-const app = require('../app')
-const powerupServices = require('../services/powerups')
 
 const getUserData = async (user) => {
   const userData = await db('users').where({ id: user.id }).first()
@@ -37,7 +35,6 @@ const updateInDate = async (user) => {
   const nowDate = new Date(Date.now())
   await db('users').where({ id: user.id }).update({ inDate: nowDate.toISOString() })
 }
-
 
 module.exports = {
   updateBalance,

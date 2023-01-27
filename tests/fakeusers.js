@@ -9,6 +9,17 @@ exports.fake_user3 = {
   sumMultiplier: 0
 }
 
+exports.fake_user4 = {
+  name: 'testName',
+  email: `${Date.now()}@email.com`,
+  password: '123',
+  balance: 0,
+  outDate: new Date('2021-03-25'),
+  inDate: new Date('2021-03-26'),
+  sumMultiplier: 0
+}
+
+
 exports.fake_user1 = {
   name: 'testName',
   email: 'test@test.com',

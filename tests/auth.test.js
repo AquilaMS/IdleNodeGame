@@ -51,7 +51,7 @@ test('get bad password', () => {
       .send({ email: fakeUsers.fake_user3.email, password: '1234' })
       .set('authorization', `bearer ${user.token}`))
     .then(res => {
-      expect(res.status).toBe(300)
+      expect(res.status).toBe(400)
       expect(res.body).toHaveProperty('error')
     })
 })
@@ -67,6 +67,17 @@ test('get good password', () => {
     })
 })
 
-test('cannot access protected routes', () => {
-
+test('cannot access protected routes (users)', () => {
+  return request(app)
+    .post('/user')
+    .then(res => {
+      expect(res.status).toBe(401)
+    })
+})
+test('cannot access protected routes (pwoerups)', () => {
+  return request(app)
+    .post('/powerups')
+    .then(res => {
+      expect(res.status).toBe(401)
+    })
 })

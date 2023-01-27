@@ -1,7 +1,6 @@
 var db = require('../config/database')
 const bcrypt = require('bcrypt')
 const jwt = require('jwt-simple')
-const app = require('../app')
 
 const SECRET = 'super hyper secret'
 
