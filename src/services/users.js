@@ -8,34 +8,23 @@ const getUserData = async (user) => {
 }
 
 const updateBalance = async (user) => {
-  try {
-    const userData = await db('users').where({ id: user.id }).first()
-    if (userData.outDate == null) userData.outDate = Date.now()
-    const nowDate = new Date(Date.now())
+  const userData = await db('users').where({ id: user.id }).first()
 
-    const oldBalance = userData.balance
-    const outDate = new Date(userData.outDate).getTime()
-    const inDate = new Date(userData.inDate).getTime()
+  if (userData.outDate == null) userData.outDate = new Date(Date.now()).getTime()
 
-    const dateDifference = Math.abs((inDate - outDate) / 1000)
-    const multiplier = userData.sumMultiplier
-    const newBalance = oldBalance + (dateDifference * multiplier)
+  console.log(userData.outDate)
+  const oldBalance = userData.balance
+  const outDateTime = new Date(userData.outDate).getTime()
+  const inDateTime = new Date(Date.now()).getTime()
+  const timeDifference = (inDateTime - outDateTime) / 1000
+  const newBalance = ((timeDifference * userData.sumMultiplier) / 5) + oldBalance
+  await db('users').where({ id: user.id }).update({
+    balance: newBalance,
+    outDate: new Date(Date.now()).toISOString(),
+    inDate: new Date(Date.now()).toISOString()
+  })
 
-    const newOutDate = userData.inDate
-    const newInDate = nowDate.toISOString()
-
-    const queryBalance = await db('users').update({
-      balance: newBalance,
-      inDate: newInDate,
-      outDate: newOutDate
-    }).where({ id: user.id }).returning(['balance', 'inDate', 'outDate'])
-
-    const result = queryBalance[0]
-    return { multiplier, newOutDate, newInDate, newBalance, dateDifference, result }
-  }
-  catch (err) {
-    console.log(err)
-  }
+  return newBalance
 }
 
 const updateOutDate = async (user) => {
