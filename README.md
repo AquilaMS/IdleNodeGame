@@ -4,14 +4,13 @@
 Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT.
 
 
-
 ## Documentação da API
 
 
 
-````http
+```http
   POST /acc/get 
-````
+```
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
@@ -55,4 +54,3 @@ Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `user.id`      | `int` |Atualiza o valor de **user.balance** de acordo com a diferença entre *inDate* e *outDate* do usuário. Retorna o valor atualizado de *user.balance*|
-
