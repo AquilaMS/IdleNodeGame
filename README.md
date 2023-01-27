@@ -9,7 +9,9 @@ Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT
 
 
 
-  ```POST /acc/get``` 
+  ```
+  POST /acc/get
+  ``` 
 
 
 | Parâmetro   | Tipo       | Descrição                           |
@@ -18,7 +20,9 @@ Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT
 
 
 
-```POST /buy/${powerupID}```
+```
+POST /buy/${powerupID}
+```
 
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
