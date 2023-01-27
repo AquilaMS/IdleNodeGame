@@ -18,16 +18,14 @@ Projeto usado para estudo de NodeJS com suite de teste Jest e autenticação JWT
 
 
 
-```http
- POST /buy/${powerupID}
-```
+``POST /buy/${powerupID}``
 
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `user.id`      | `int` | Atualiza o **user.balance** e o **user.sumMultplier**|
 
 
-```http
+```
  GET /powerups/
 ```
 | Parâmetro   | Tipo       | Descrição                                   |
