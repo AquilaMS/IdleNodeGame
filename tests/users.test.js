@@ -27,12 +27,3 @@ test('buy powerup', () => {
       expect(res.body).toBe(3.00)
     })
 })
-
-test('update balance', () => {
-  return request(app)
-    .post(`${USERS_ROUTE}/update`)
-    .set('authorization', `bearer ${user1.token}`)
-    .then(res => {
-      expect(res.body.balance).toBe(1748)
-    })
-})

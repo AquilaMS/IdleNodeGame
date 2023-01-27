@@ -11,6 +11,9 @@ const getAll = async (req, res) => {
 }
 
 const buyPowerup = async (user, pwup) => {
+
+  if (pwup > powerupList.item.length - 1) return { error: 'Invalid range' }
+
   const userData = await userServices.getUserData(user)
   const oldBalance = userData.balance
   const price = powerupList.item[pwup].price
