@@ -63,7 +63,7 @@ test('get good password', () => {
       .set('authorization', `bearer ${user.token}`))
     .then(res => {
       expect(res.status).toBe(201)
-      expect(res.body).toHaveProperty('token')
+      expect(res.body.token).not.toBe(undefined)
     })
 })
 

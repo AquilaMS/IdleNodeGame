@@ -27,7 +27,7 @@ test('get one powerup', () => {
 
 test('get all powerup', () => {
   return request(app)
-    .get(`${MAIN_ROUTE}/getall`)
+    .post(`${MAIN_ROUTE}/getall`)
     .set('authorization', `bearer ${user.token}`)
     .then(res => {
       expect(res.status).toBe(200)

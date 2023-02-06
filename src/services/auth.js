@@ -1,6 +1,7 @@
 var db = require('../config/database')
 const bcrypt = require('bcrypt')
 const jwt = require('jwt-simple')
+const userServices = require('../services/users')
 
 const SECRET = 'super hyper secret'
 
@@ -36,14 +37,20 @@ const signIn = async (req) => {
           name: user.name,
           email: user.email,
         }
-        const token = jwt.encode(payload, SECRET)
-        return token
+
+        return userServices.updateBalance(user)
+          .then(res => {
+            console.log(res)
+            const token = jwt.encode(payload, SECRET)
+            return { token, name: user.name }
+          })
+
       }
       else {
         return { error: 'Invalid user' }
       }
-    }).catch(error => {
-      console.log(error)
+    }).catch(() => {
+      return { error: 'Invalid user' }
     })
 }
 module.exports = {
